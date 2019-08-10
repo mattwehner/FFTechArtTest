@@ -35,6 +35,10 @@ public class GameRules : MonoBehaviour
 	public int MissileSpawnCount { get { return _missileSpawnCount; } }
 
 	[SerializeField]
+	private float _missileAccuracy = 1f;
+	public float MissileAccuracy { get { return _missileAccuracy; } }
+
+	[SerializeField]
 	private float _missileExplosionSize = 1f;
 	public float MissileExplosionSize { get { return _missileExplosionSize; } }
 

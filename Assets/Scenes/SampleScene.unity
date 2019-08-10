@@ -479,6 +479,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4624648341914664, guid: ba20a133cabc1f645a329e7acaeb824b, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ba20a133cabc1f645a329e7acaeb824b, type: 2}
   m_IsPrefabParent: 0
@@ -885,6 +889,7 @@ MonoBehaviour:
   _missileThrust: 20
   _missileSpawnTimer: 4
   _missileSpawnCount: 10
+  _missileAccuracy: 1
   _missileExplosionSize: 1
   _missileExplosionTime: 1
   _mineParent: {fileID: 150639940}
