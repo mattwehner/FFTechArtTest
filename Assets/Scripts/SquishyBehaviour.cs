@@ -17,6 +17,7 @@ namespace Assets.Scripts
 	
         //Animation
         private Animator _animator;
+        private string _lurchAnimation = "SquishyLurch";
 
         void Start ()
         {
@@ -46,7 +47,7 @@ namespace Assets.Scripts
                 
                 //Rotate and move squishy
                 transform.LookAt(mouseDelta);
-                _animator.Play("SquishyLurch");
+                _animator.Play(_lurchAnimation);
                 PushRigidbody(transform.forward * _jumpForce);
 
                 //Spawn a mine at squishy's current location
