@@ -1,4 +1,7 @@
 {
-	"dependencies": {
-	}
+  "dependencies": {
+    "com.unity.ads": "exclude",
+    "com.unity.purchasing": "exclude",
+    "com.unity.cinemachine": "2.2.10-preview.4"
+  }
 }

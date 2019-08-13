@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class GameRules : MonoBehaviour
@@ -12,7 +13,17 @@ public class GameRules : MonoBehaviour
 	public bool HasGameEnded { get { return _gameEnd; } }
 
 	//Inspector Variables
-	[Header("Squishy Parameters")]
+	[Header("Camera Parameters")]
+    private CinemachineBrain _cameraManager;
+	
+    [SerializeField]
+    private Camera _mainCamera;
+    [SerializeField]
+    private CinemachineVirtualCamera _victoryView;
+    [SerializeField]
+    private CinemachineVirtualCamera _loseView;
+
+    [Header("Squishy Parameters")]
 	[SerializeField]
 	private float _squishyJumpForce = 10000f;
 	public float SquishyJumpForce { get { return _squishyJumpForce; } }
@@ -85,7 +96,8 @@ public class GameRules : MonoBehaviour
 	private void Awake()
 	{
 		Instance = this;
-	}
+        _cameraManager = _mainCamera.GetComponent<CinemachineBrain>();
+    }
 
 	private void Update()
 	{
@@ -102,11 +114,20 @@ public class GameRules : MonoBehaviour
 	}
 
 	//Game is lost
-	public void GameOver()
+	public void GameOver(Collision collidedWith)
 	{
-		_endgameCanvas.SetActive(true);
-		_endgameGameOver.SetActive(true);
-		_endgameVictory.SetActive(false);
+        //Add Object to LoseView Group
+        _loseView.gameObject.SetActive(true);
+        CinemachineTargetGroup _loseTargerGroup = _loseView.GetComponentInChildren<CinemachineTargetGroup>();
+        _loseTargerGroup.AddMember(collidedWith.transform, 1, 0);
+
+        CaptureScreenshot();
+
+        MissileSpawner.Instance.EnableSpawning = false;
+        //Add View to texture.
+		//_endgameCanvas.SetActive(true);
+		//_endgameGameOver.SetActive(true);
+		//_endgameVictory.SetActive(false);
 		_gameEnd = true;
 		Debug.Log("Game Over!");
 	}
@@ -114,6 +135,7 @@ public class GameRules : MonoBehaviour
 	//Game is won
 	public void GameVictory()
 	{
+        
 		_endgameCanvas.SetActive(true);
 		_endgameGameOver.SetActive(false);
 		_endgameVictory.SetActive(true);
@@ -126,4 +148,9 @@ public class GameRules : MonoBehaviour
 	{
 		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
+
+    private void CaptureScreenshot()
+    {
+
+    }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -69,7 +70,7 @@ namespace Assets.Scripts
             if ((missile != null || explosion != null) && !GameRules.Instance.HasGameEnded)
             {
                 //Squishy has hit or been hit by a missile or explosion
-                GameRules.Instance.GameOver();
+                GameRules.Instance.GameOver(collision);
             }
         }
     }
