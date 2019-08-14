@@ -125,7 +125,7 @@ namespace Assets.Scripts
             CinemachineTargetGroup _loseTargerGroup = _loseView.GetComponentInChildren<CinemachineTargetGroup>();
             _loseTargerGroup.AddMember(collidedWith.transform, 1, 0);
 
-            StartCoroutine(CaptureScreenshotThenCleanup());
+            StartCoroutine(CaptureScreenshotThenCleanupScene());
 
             _endgameCanvas.SetActive(true);
             _endgameGameOver.SetActive(true);
@@ -139,7 +139,7 @@ namespace Assets.Scripts
         {
             //Activate Victory Camera
             _victoryView.gameObject.SetActive(true);
-            StartCoroutine(CaptureScreenshotThenCleanup());
+            StartCoroutine(CaptureScreenshotThenCleanupScene());
 
             _endgameCanvas.SetActive(true);
             _endgameGameOver.SetActive(false);
@@ -160,7 +160,7 @@ namespace Assets.Scripts
             MissileSpawner.Instance.StartSpawning();
         }
 
-        private IEnumerator CaptureScreenshotThenCleanup()
+        private IEnumerator CaptureScreenshotThenCleanupScene()
         {
             var dimensions = _endgameScreenshot.GetComponent<RectTransform>().rect;
             ScreenshotUtilities.Capture((int)dimensions.width, (int)dimensions.height, _endgameScreenshot.GetComponent<Image>());
