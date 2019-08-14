@@ -10,7 +10,6 @@ namespace Assets.Scripts
 
         //Mouse position tracking
         private Vector3 _mousePositionStart = Vector3.zero;
-        private bool _mouseButtonHeld = false;
 	
         //Movement
         private Rigidbody _rigidbody;
@@ -19,6 +18,10 @@ namespace Assets.Scripts
         //Animation
         private Animator _animator;
         private string _lurchAnimation = "SquishyLurch";
+
+        //Material
+        [SerializeField]
+        private Material _material;
 
         void Start ()
         {
@@ -29,7 +32,10 @@ namespace Assets.Scripts
 	
         void Update ()
         {
-            CheckInputs();
+            if (GameRules.Instance.HasGameStarted)
+            {
+                CheckInputs();
+            }
         }
 
         private void CheckInputs()
@@ -71,6 +77,9 @@ namespace Assets.Scripts
             {
                 //Squishy has hit or been hit by a missile or explosion
                 GameRules.Instance.GameOver(collision);
+
+                //Switch Squishy to frown
+                _material.mainTextureOffset = new Vector2(0.5f, 0);
             }
         }
     }

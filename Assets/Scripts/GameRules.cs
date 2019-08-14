@@ -1,167 +1,177 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Assets;
+﻿using System.Collections;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameRules : MonoBehaviour
+namespace Assets.Scripts
 {
-	//Accessible Variables
-	public static GameRules Instance;
+    public class GameRules : MonoBehaviour
+    {
+        //Accessible Variables
+        public static GameRules Instance;
     
-    private bool _gameEnd = false;
-	public bool HasGameEnded { get { return _gameEnd; } }
+        private bool _gameStart = false;
+        public bool HasGameStarted { get { return _gameStart; } }
 
-	//Inspector Variables
-	[SerializeField]
-    private Camera _mainCamera;
-    [SerializeField]
-    private CinemachineVirtualCamera _victoryView;
-    [SerializeField]
-    private CinemachineVirtualCamera _loseView;
+        private bool _gameEnd = false;
+        public bool HasGameEnded { get { return _gameEnd; } }
 
-    [Header("Squishy Parameters")]
-	[SerializeField]
-	private float _squishyJumpForce = 10000f;
-	public float SquishyJumpForce { get { return _squishyJumpForce; } }
+        //Inspector Variables
+        [SerializeField]
+        private Camera _mainCamera;
+        [SerializeField]
+        private CinemachineVirtualCamera _victoryView;
+        [SerializeField]
+        private CinemachineVirtualCamera _loseView;
 
-	[Header("Missile Parameters")]
-	[SerializeField]
-	private Transform _missileParent;
-	public Transform MissileParent { get { return _missileParent; } }
+        [Header("Squishy Parameters")]
+        [SerializeField]
+        private float _squishyJumpForce = 10000f;
+        public float SquishyJumpForce { get { return _squishyJumpForce; } }
 
-	[SerializeField]
-	private float _missileThrust = 100f;
-	public float MissileThrust { get { return _missileThrust; } }
+        [Header("Missile Parameters")]
+        [SerializeField]
+        private Transform _missileParent;
+        public Transform MissileParent { get { return _missileParent; } }
+
+        [SerializeField]
+        private float _missileThrust = 100f;
+        public float MissileThrust { get { return _missileThrust; } }
 	
-	[SerializeField]
-	private float _missileSpawnTimer = 2f;
-	public float MissileSpawnTimer { get { return _missileSpawnTimer; } }
+        [SerializeField]
+        private float _missileSpawnTimer = 2f;
+        public float MissileSpawnTimer { get { return _missileSpawnTimer; } }
 
-	[SerializeField]
-	private int _missileSpawnCount = 10;
-	public int MissileSpawnCount { get { return _missileSpawnCount; } }
+        [SerializeField]
+        private int _missileSpawnCount = 10;
+        public int MissileSpawnCount { get { return _missileSpawnCount; } }
 
-	[SerializeField]
-	private float _missileAccuracy = 1f;
-	public float MissileAccuracy { get { return _missileAccuracy; } }
+        [SerializeField]
+        private float _missileAccuracy = 1f;
+        public float MissileAccuracy { get { return _missileAccuracy; } }
 
-	[SerializeField]
-	private float _missileExplosionSize = 1f;
-	public float MissileExplosionSize { get { return _missileExplosionSize; } }
+        [SerializeField]
+        private float _missileExplosionSize = 1f;
+        public float MissileExplosionSize { get { return _missileExplosionSize; } }
 
-	[SerializeField]
-	private float _missileExplosionTime = 1f;
-	public float MissileExplosionTime { get { return _missileExplosionTime; } }
-
-
-	[Header("Mine Parameters")]
-	[SerializeField]
-	private Transform _mineParent;
-	public Transform MineParent { get { return _mineParent; } }
-
-	[SerializeField]
-	private float _mineDetonationTimer = 2f;
-	public float MineDetonationTimer { get { return _mineDetonationTimer; } }
-
-	[SerializeField]
-	private float _mineExplosionSize = 2f;
-	public float MineExplosionSize { get { return _mineExplosionSize; } }
-
-	[SerializeField]
-	private float _mineExplosionTime = 2f;
-	public float MineExplosionTime { get { return _mineExplosionTime; } }
-
-	[Header("Explosion Parameters")]
-	[SerializeField]
-	private Transform _explosionParent;
-	public Transform ExplosionParent { get { return _explosionParent; } }
+        [SerializeField]
+        private float _missileExplosionTime = 1f;
+        public float MissileExplosionTime { get { return _missileExplosionTime; } }
 
 
-	[Header("Endgame UI")]
-	[SerializeField]
-	private GameObject _endgameCanvas;
-	[SerializeField]
-	private GameObject _endgameVictory;
-	[SerializeField]
-	private GameObject _endgameGameOver;
-	[SerializeField]
-	private GameObject _endgameScreenshot;
+        [Header("Mine Parameters")]
+        [SerializeField]
+        private Transform _mineParent;
+        public Transform MineParent { get { return _mineParent; } }
+
+        [SerializeField]
+        private float _mineDetonationTimer = 2f;
+        public float MineDetonationTimer { get { return _mineDetonationTimer; } }
+
+        [SerializeField]
+        private float _mineExplosionSize = 2f;
+        public float MineExplosionSize { get { return _mineExplosionSize; } }
+
+        [SerializeField]
+        private float _mineExplosionTime = 2f;
+        public float MineExplosionTime { get { return _mineExplosionTime; } }
+
+        [Header("Explosion Parameters")]
+        [SerializeField]
+        private Transform _explosionParent;
+        public Transform ExplosionParent { get { return _explosionParent; } }
 
 
-	//Internal Variables
-	private int _missilesDestroyed = 0;
+        [Header("Endgame UI")]
+        [SerializeField]
+        private GameObject _endgameCanvas;
+        [SerializeField]
+        private GameObject _endgameVictory;
+        [SerializeField]
+        private GameObject _endgameGameOver;
+        [SerializeField]
+        private GameObject _endgameScreenshot;
 
-	private void Awake()
-	{
-		Instance = this;
-    }
 
-	private void Update()
-	{
-		//Check for end game conditions
-		if (!_gameEnd && _missilesDestroyed >= _missileSpawnCount)
-		{
-			GameVictory();
-		}
-    }
+        //Internal Variables
+        private int _missilesDestroyed = 0;
 
-	public void MissileDestroyed()
-	{
-		_missilesDestroyed++;
-	}
+        private void Awake()
+        {
+            Instance = this;
+        }
 
-	//Game is lost
-	public void GameOver(Collision collidedWith)
-	{
-        //Add Object to LoseView Group
-        _loseView.gameObject.SetActive(true);
-        CinemachineTargetGroup _loseTargerGroup = _loseView.GetComponentInChildren<CinemachineTargetGroup>();
-        _loseTargerGroup.AddMember(collidedWith.transform, 1, 0);
+        private void Update()
+        {
+            //Check for end game conditions
+            if (!_gameEnd && _missilesDestroyed >= _missileSpawnCount)
+            {
+                GameVictory();
+            }
+        }
 
-        StartCoroutine(CaptureScreenshotThenCleanup());
+        public void MissileDestroyed()
+        {
+            _missilesDestroyed++;
+        }
 
-        _endgameCanvas.SetActive(true);
-		_endgameGameOver.SetActive(true);
-		_endgameVictory.SetActive(false);
-		_gameEnd = true;
-		Debug.Log("Game Over!");
-	}
-    
-    //Game is won
-	public void GameVictory()
-	{
-		_endgameCanvas.SetActive(true);
-		_endgameGameOver.SetActive(false);
-		_endgameVictory.SetActive(true);
-		_gameEnd = true;
-		Debug.Log("Victory!");
-	}
-
-	//Reset the game
-	public void ResetGame()
-	{
-		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-	}
-
-    public void BeginLevel()
-    {
-        MissileSpawner.Instance.StartSpawning();
-    }
-
-    private IEnumerator CaptureScreenshotThenCleanup()
-    {
-        var dimensions = _endgameScreenshot.GetComponent<RectTransform>().rect;
-        ScreenshotUtilities.Capture((int)dimensions.width, (int)dimensions.height, _endgameScreenshot.GetComponent<Image>());
-
-        yield return new WaitUntil(() => ScreenshotUtilities._screenshotCaptured);
-
-        MissileSpawner.Instance.Cleanup();
+        //Game is lost
+        public void GameOver(Collision collidedWith)
+        {
+            //Activate Lose Camera
+            _loseView.gameObject.SetActive(true);
         
-        //Switch to Main Camera
-        _loseView.gameObject.SetActive(false);
-        _victoryView.gameObject.SetActive(false);
+            //Add Object to LoseView Group
+            CinemachineTargetGroup _loseTargerGroup = _loseView.GetComponentInChildren<CinemachineTargetGroup>();
+            _loseTargerGroup.AddMember(collidedWith.transform, 1, 0);
+
+            StartCoroutine(CaptureScreenshotThenCleanup());
+
+            _endgameCanvas.SetActive(true);
+            _endgameGameOver.SetActive(true);
+            _endgameVictory.SetActive(false);
+            _gameEnd = true;
+            Debug.Log("Game Over!");
+        }
+    
+        //Game is won
+        public void GameVictory()
+        {
+            //Activate Victory Camera
+            _victoryView.gameObject.SetActive(true);
+            StartCoroutine(CaptureScreenshotThenCleanup());
+
+            _endgameCanvas.SetActive(true);
+            _endgameGameOver.SetActive(false);
+            _endgameVictory.SetActive(true);
+            _gameEnd = true;
+            Debug.Log("Victory!");
+        }
+
+        //Reset the game
+        public void ResetGame()
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+
+        public void BeginLevel()
+        {
+            _gameStart = true;
+            MissileSpawner.Instance.StartSpawning();
+        }
+
+        private IEnumerator CaptureScreenshotThenCleanup()
+        {
+            var dimensions = _endgameScreenshot.GetComponent<RectTransform>().rect;
+            ScreenshotUtilities.Capture((int)dimensions.width, (int)dimensions.height, _endgameScreenshot.GetComponent<Image>());
+
+            yield return new WaitUntil(() => ScreenshotUtilities._screenshotCaptured);
+
+            MissileSpawner.Instance.Cleanup();
+        
+            //Switch to Main Camera
+            _loseView.gameObject.SetActive(false);
+            _victoryView.gameObject.SetActive(false);
+        }
     }
 }

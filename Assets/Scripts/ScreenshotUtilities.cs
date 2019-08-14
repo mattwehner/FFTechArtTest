@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets
+namespace Assets.Scripts
 {
     public class ScreenshotUtilities : MonoBehaviour
     {
@@ -53,7 +52,6 @@ namespace Assets
             Debug.Log("Screenshot saved to: "+ filePath);
 
             //RenderToImage
-
             if (_imageDisplay != null)
             {
                 render.Apply();

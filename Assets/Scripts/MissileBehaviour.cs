@@ -1,51 +1,58 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts;
-using Assets.Scripts.Interfaces;
+﻿using Assets.Scripts.Interfaces;
 using UnityEngine;
 
-public class MissileBehaviour : MonoBehaviour, IDestroyable
+namespace Assets.Scripts
 {
-	[SerializeField]
-	private GameObject _explosionPrefab;
+    public class MissileBehaviour : MonoBehaviour, IDestroyable
+    {
+        [SerializeField]
+        private GameObject _explosionPrefab;
     
-	private float _missileThrust = 0f;
-	private float _missileAccuracy = 0f;
-	private Rigidbody _rigidbody;
-    private GameObject _squishyInstance;
+        private float _missileThrust = 0f;
+        private float _missileAccuracy = 0f;
+        private Rigidbody _rigidbody;
+        private GameObject _squishyInstance;
 
-	private void Start()
-	{
-		_rigidbody = GetComponent<Rigidbody>();
-		_missileThrust = GameRules.Instance.MissileThrust;
-        _missileAccuracy = GameRules.Instance.MissileAccuracy;
-        _squishyInstance = FindObjectOfType<SquishyBehaviour>().gameObject;
-    }
+        private void Start()
+        {
+            _rigidbody = GetComponent<Rigidbody>();
+            _missileThrust = GameRules.Instance.MissileThrust;
+            _missileAccuracy = GameRules.Instance.MissileAccuracy;
+            _squishyInstance = FindObjectOfType<SquishyBehaviour>().gameObject;
+        }
 
-	void FixedUpdate()
-	{
-		PushRigidbody(Vector3.forward * _missileThrust);
-        TrackTarget(_squishyInstance);
-    }
+        void FixedUpdate()
+        {
+            PushRigidbody(Vector3.forward * _missileThrust);
+            TrackTarget(_squishyInstance);
+        }
 
-	private void PushRigidbody(Vector3 force)
-	{
-		_rigidbody.AddRelativeForce(force);
-	}
+        private void PushRigidbody(Vector3 force)
+        {
+            _rigidbody.AddRelativeForce(force);
+        }
 
-    private void TrackTarget (GameObject target)
-    {
-        Vector3 dir = _squishyInstance.transform.position - transform.position;
-        dir.y = 0;
-        Quaternion rotation = Quaternion.LookRotation(dir);
+        private void TrackTarget (GameObject target)
+        {
+            Vector3 dir = _squishyInstance.transform.position - transform.position;
+            dir.y = 0;
+            Quaternion rotation = Quaternion.LookRotation(dir);
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _missileAccuracy * Time.deltaTime);
-    }
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _missileAccuracy * Time.deltaTime);
+        }
 
-    public void Destroy()
-    {
-        GameRules.Instance.MissileDestroyed();
-        Instantiate(_explosionPrefab, transform.position, Quaternion.identity, GameRules.Instance.ExplosionParent);
-        Destroy(gameObject);
+        private void OnCollisionEnter(Collision collision)
+        {
+            //Destroy if collision wasn't with squishy
+            SquishyBehaviour squishy = collision.collider.GetComponent<SquishyBehaviour>();
+            if (squishy == null) Destroy();
+        }
+
+        public void Destroy()
+        {
+            GameRules.Instance.MissileDestroyed();
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity, GameRules.Instance.ExplosionParent);
+            Destroy(gameObject);
+        }
     }
 }
