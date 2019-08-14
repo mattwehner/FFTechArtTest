@@ -8,10 +8,10 @@ public class MissileSpawner : MonoBehaviour
 	private GameObject _missileSpawnPrefab;
 	[SerializeField]
 	private Transform _missileSpawnPoint;
+    [SerializeField]
+	private GameObject _missileParent;
 
     public static MissileSpawner Instance;
-
-    public bool EnableSpawning = true;
 
 	//Store these variables internally
 	private float _missileSpawnTimer = 2f;
@@ -22,18 +22,36 @@ public class MissileSpawner : MonoBehaviour
         Instance = this;
 		_missileSpawnTimer = GameRules.Instance.MissileSpawnTimer;
 		_missileSpawnCount = GameRules.Instance.MissileSpawnCount;
+    }
 
-		StartCoroutine(BeginSpawningMissiles());
-	}
-
-	public IEnumerator BeginSpawningMissiles()
+	public IEnumerator SpawnMissiles()
 	{
 		int missileCounter = 0;
-		while(missileCounter < _missileSpawnCount && EnableSpawning)
+		while(missileCounter < _missileSpawnCount)
 		{
 			yield return new WaitForSeconds(_missileSpawnTimer);
 			Instantiate(_missileSpawnPrefab, _missileSpawnPoint.position, Quaternion.identity, GameRules.Instance.MissileParent);
 			missileCounter++;
 		}
 	}
+
+    public void Cleanup()
+    {
+        StopSpawning();
+        _missileParent.SetActive(false);
+        foreach (Transform missile in _missileParent.transform)
+        {
+            missile.GetComponent<MissileBehaviour>().Destroy();
+        }
+    }
+
+    public void StartSpawning()
+    {
+        StartCoroutine(SpawnMissiles());
+    }
+    
+    public void StopSpawning()
+    {
+        StopCoroutine(SpawnMissiles());
+    } 
 }

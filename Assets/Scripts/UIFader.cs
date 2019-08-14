@@ -1,39 +1,62 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Globalization;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class UIFader : MonoBehaviour
+namespace Assets.Scripts
 {
-	[SerializeField]
-	private float _startDelay = 1f;
+    public class UIFader : MonoBehaviour
+    {
+        [SerializeField]
+        private CanvasGroup _canvasGroup;
+        
+        [SerializeField]
+        private string _startingMessage = "Ready?";
 
-	[SerializeField]
-	private float _fadeTime = 1f;
+        [SerializeField]
+        private float _countdownDelay = 3f;
 
-	[SerializeField]
-	private CanvasGroup _canvasGroup;
+        [SerializeField]
+        private float _countdown = 3f;
 
-	void Start ()
-	{
-		if (_canvasGroup != null)
-		{
-			StartCoroutine(FadeUI());
-		}
-	}
-	
-	public IEnumerator FadeUI()
-	{
-		yield return new WaitForSeconds(_startDelay);
+        [SerializeField]
+        private Text _canvasText;
 
-		float timer = 0f;
-		while(timer < _fadeTime)
-		{
-			timer += Time.deltaTime;
-			_canvasGroup.alpha = 1f - (timer / _fadeTime);
-			yield return null;
-		}
+        private void Start()
+        {
+            if (_canvasGroup != null && _canvasText != null)
+            {
+                StartCoroutine(Countdown());
+            }
+            else
+            {
+                Debug.LogError("Unassigned Variable in the Inspector Window");
+                UnityEditor.EditorApplication.isPlaying = false;
+            }
+        }
 
-		_canvasGroup.alpha = 0f;
-		_canvasGroup.gameObject.SetActive(false);
-	}
+        public IEnumerator Countdown()
+        {
+            _canvasText.text = _startingMessage;
+
+            yield return new WaitForSeconds(_countdownDelay);
+
+            float timer = 0f;
+            while (timer < _countdown)
+            {
+                timer += Time.deltaTime;
+                
+                var countdownText = Math.Ceiling(_countdown - timer)
+                    .ToString(CultureInfo.InvariantCulture);
+                _canvasText.text = countdownText;
+
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(1f);
+            _canvasGroup.gameObject.SetActive(false);
+            GameRules.Instance.BeginLevel();
+        }
+    }
 }

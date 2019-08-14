@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameRules : MonoBehaviour
 {
 	//Accessible Variables
 	public static GameRules Instance;
-
-	private bool _gameEnd = false;
+    
+    private bool _gameEnd = false;
 	public bool HasGameEnded { get { return _gameEnd; } }
 
 	//Inspector Variables
-	[Header("Camera Parameters")]
-    private CinemachineBrain _cameraManager;
-	
-    [SerializeField]
+	[SerializeField]
     private Camera _mainCamera;
     [SerializeField]
     private CinemachineVirtualCamera _victoryView;
@@ -88,6 +87,8 @@ public class GameRules : MonoBehaviour
 	private GameObject _endgameVictory;
 	[SerializeField]
 	private GameObject _endgameGameOver;
+	[SerializeField]
+	private GameObject _endgameScreenshot;
 
 
 	//Internal Variables
@@ -96,7 +97,6 @@ public class GameRules : MonoBehaviour
 	private void Awake()
 	{
 		Instance = this;
-        _cameraManager = _mainCamera.GetComponent<CinemachineBrain>();
     }
 
 	private void Update()
@@ -106,7 +106,7 @@ public class GameRules : MonoBehaviour
 		{
 			GameVictory();
 		}
-	}
+    }
 
 	public void MissileDestroyed()
 	{
@@ -121,21 +121,18 @@ public class GameRules : MonoBehaviour
         CinemachineTargetGroup _loseTargerGroup = _loseView.GetComponentInChildren<CinemachineTargetGroup>();
         _loseTargerGroup.AddMember(collidedWith.transform, 1, 0);
 
-        CaptureScreenshot();
+        StartCoroutine(CaptureScreenshotThenCleanup());
 
-        MissileSpawner.Instance.EnableSpawning = false;
-        //Add View to texture.
-		//_endgameCanvas.SetActive(true);
-		//_endgameGameOver.SetActive(true);
-		//_endgameVictory.SetActive(false);
+        _endgameCanvas.SetActive(true);
+		_endgameGameOver.SetActive(true);
+		_endgameVictory.SetActive(false);
 		_gameEnd = true;
 		Debug.Log("Game Over!");
 	}
-
-	//Game is won
+    
+    //Game is won
 	public void GameVictory()
 	{
-        
 		_endgameCanvas.SetActive(true);
 		_endgameGameOver.SetActive(false);
 		_endgameVictory.SetActive(true);
@@ -149,8 +146,22 @@ public class GameRules : MonoBehaviour
 		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
 
-    private void CaptureScreenshot()
+    public void BeginLevel()
     {
+        MissileSpawner.Instance.StartSpawning();
+    }
 
+    private IEnumerator CaptureScreenshotThenCleanup()
+    {
+        var dimensions = _endgameScreenshot.GetComponent<RectTransform>().rect;
+        ScreenshotUtilities.Capture((int)dimensions.width, (int)dimensions.height, _endgameScreenshot.GetComponent<Image>());
+
+        yield return new WaitUntil(() => ScreenshotUtilities._screenshotCaptured);
+
+        MissileSpawner.Instance.Cleanup();
+        
+        //Switch to Main Camera
+        _loseView.gameObject.SetActive(false);
+        _victoryView.gameObject.SetActive(false);
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
+using Assets.Scripts.Interfaces;
 using UnityEngine;
 
-public class MissileBehaviour : MonoBehaviour
+public class MissileBehaviour : MonoBehaviour, IDestroyable
 {
 	[SerializeField]
 	private GameObject _explosionPrefab;
@@ -41,11 +42,10 @@ public class MissileBehaviour : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _missileAccuracy * Time.deltaTime);
     }
 
-	private void OnCollisionEnter(Collision collision)
-	{
-		//Destroy the missiles whenever they collide with anything
-		GameRules.Instance.MissileDestroyed();
-		Instantiate(_explosionPrefab, transform.position, Quaternion.identity, GameRules.Instance.ExplosionParent);
-		Destroy(gameObject);
-	}
+    public void Destroy()
+    {
+        GameRules.Instance.MissileDestroyed();
+        Instantiate(_explosionPrefab, transform.position, Quaternion.identity, GameRules.Instance.ExplosionParent);
+        Destroy(gameObject);
+    }
 }

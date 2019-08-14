@@ -169,3 +169,5 @@ MonoBehaviour:
   _missileSpawnPrefab: {fileID: 1009292045417778, guid: 03e2b0f3087c3474d9a547a9285162cc,
     type: 2}
   _missileSpawnPoint: {fileID: 4338704449193762}
+  _missileParent: {fileID: 0}
+  EnableSpawning: 0

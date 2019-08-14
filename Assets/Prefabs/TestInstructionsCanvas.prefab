@@ -64,7 +64,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &114053980702862904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -86,78 +86,18 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 40
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
-    m_Alignment: 0
+    m_BestFit: 1
+    m_MinSize: 40
+    m_MaxSize: 90
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Welcome to the Finger Food Technical Artist Test Package!
-
-    Prioritized below are the tasks we''d like to see you implement to this project.
-
-    You don''t need to complete all of the tasks if you''re feeling pressed for time.
-
-    Standard shaders, shadows, post-effects, etc. are fine... we''d rather see the
-    features implemented, even if it''s a bit slow.
-
-    When you''re satisfied, zip up and send the project back to us so we can take
-    a look at your work!
-
-
-    What''s already in the project:
-
-    Hit Play, then click & drag to move "Squishy" around the arena.  Avoid the explosions
-    and destroy the 10 missiles using the mines dropped when Squishy moves, or by
-    letting the missiles hit the walls.
-
-
-    High Priority:
-
-    -Steer the missiles toward Squishy (and limit the rate at which they turn).
-
-    -Turn Squishy to face the direction that she''s moving.
-
-    -Make Squishy play a new ''lunge'' animation when she moves (you will need to
-    create this animation).
-
-    -Add an in-game screenshot with a neat camera angle to both of the game end screens.
-
-    -Improve the lighting in the scene.
-
-    -Fix any rendering artifacts you see.
-
-
-    Medium Priority:
-
-    -Add a trail to the missiles.
-
-    -Replace the explosion graphics with FX or improve their visuals.
-
-    -Add a confetti explosion to the victory end screen.
-
-    -Make Squishy''s material reflect the environment, missiles, & explosions in real-time.
-
-    -Make Squishy frown during the game-over screen, and smile during the victory
-    screen.
-
-
-    Bonus:
-
-    -Have Squishy leave a slime trail behind her.
-
-    -Have the explosions clear this trail.
-
-    -Make it so the missiles can''t change direction when over this trail.
-
-    -Convert the mouse drag input to work in world space instead of screen space.
-
-    -Add sounds.'
+  m_Text: Ready?
 --- !u!114 &114150753516317140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -233,9 +173,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f77348c2ae1f1842b76552b50e54e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startDelay: 1
-  _fadeTime: 1
   _canvasGroup: {fileID: 225123177536520206}
+  _startingMessage: Ready?
+  _countdownDelay: 3
+  _countdown: 3
+  _canvasText: {fileID: 114053980702862904}
 --- !u!222 &222118077679752952
 CanvasRenderer:
   m_ObjectHideFlags: 1
