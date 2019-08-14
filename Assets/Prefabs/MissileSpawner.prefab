@@ -170,4 +170,3 @@ MonoBehaviour:
     type: 2}
   _missileSpawnPoint: {fileID: 4338704449193762}
   _missileParent: {fileID: 0}
-  EnableSpawning: 0
