@@ -1379,6 +1379,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114367860586607312, guid: 709e92db82409ee46b137f294dad447c,
+        type: 2}
+      propertyPath: _camera
+      value: 
+      objectReference: {fileID: 282840813}
+    - target: {fileID: 114367860586607312, guid: 709e92db82409ee46b137f294dad447c,
+        type: 2}
+      propertyPath: _startPosition
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114367860586607312, guid: 709e92db82409ee46b137f294dad447c,
+        type: 2}
+      propertyPath: _endPosition
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 709e92db82409ee46b137f294dad447c, type: 2}
   m_IsPrefabParent: 0
@@ -3612,7 +3627,7 @@ MonoBehaviour:
   _missileParent: {fileID: 1698809367}
   _missileThrust: 20
   _missileSpawnTimer: 4
-  _missileSpawnCount: 2
+  _missileSpawnCount: 10
   _missileAccuracy: 1
   _missileExplosionSize: 1
   _missileExplosionTime: 1

@@ -243,6 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78e33c9d7ba3ff418f3b70b45368bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _camera: {fileID: 0}
   _minePrefab: {fileID: 1370897834849900, guid: a9e407337eac27542aff89f81946bd17,
     type: 2}
   _material: {fileID: 2100000, guid: 7c13a273a15ac8f42875bf38a4a163b9, type: 2}

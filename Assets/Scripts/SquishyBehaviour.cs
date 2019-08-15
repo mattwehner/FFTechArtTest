@@ -1,10 +1,15 @@
-﻿using Cinemachine;
+﻿using Assets.Scripts.Extensions;
+using Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
     public class SquishyBehaviour : MonoBehaviour
     {
+        [SerializeField]
+        private Camera _camera;
+
         [SerializeField]
         private GameObject _minePrefab;
 
@@ -45,16 +50,18 @@ namespace Assets.Scripts
         {
             if (Input.GetMouseButtonDown(0))
             {
-                _mousePositionStart = Input.mousePosition;
+                _mousePositionStart = Input.mousePosition.ToWorldPosition(_camera);
             }
 
             //Get mouse up and make sure that the game hasn't ended yet
             if (Input.GetMouseButtonUp(0) && !GameRules.Instance.HasGameEnded)
             {
-                //Get mouse drag delta from screenspace (x, y), and convert the vector to match our game alignment (x, z)
-                Vector3 mouseDelta = Input.mousePosition - _mousePositionStart;
+                Vector3 mousePosition = Input.mousePosition.ToWorldPosition(_camera);
+
+                //Convert the vector to match our game alignment (x, z)
+                Vector3 mouseDelta = mousePosition - _mousePositionStart;
                 mouseDelta = new Vector3(mouseDelta.x, 0f, mouseDelta.y);
-                
+
                 //Rotate and move squishy
                 transform.LookAt(mouseDelta);
                 _animator.Play(_lurchAnimation);
