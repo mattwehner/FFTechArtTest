@@ -52,7 +52,7 @@ namespace Assets.Scripts
                 float explosionProgress = (currentTimer / _expansionTime);
 
                 //Make Material Dissapear
-                float newCuttoff = currentCuttoff + explosionProgress;
+                float newCuttoff = (currentCuttoff + explosionProgress) * 0.8f;
                 _material.SetFloat("_Cutoff", newCuttoff);
 
                 //Transition Color

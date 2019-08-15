@@ -28,6 +28,9 @@ namespace Assets.Scripts
             _jumpForce = GameRules.Instance.SquishyJumpForce;
             _rigidbody = GetComponent<Rigidbody>();
             _animator = GetComponent<Animator>();
+
+            //Start Squishy Smiling
+            _material.mainTextureOffset = new Vector2(0, 0);
         }
 	
         void Update ()
@@ -75,11 +78,11 @@ namespace Assets.Scripts
 
             if ((missile != null || explosion != null) && !GameRules.Instance.HasGameEnded)
             {
-                //Squishy has hit or been hit by a missile or explosion
-                GameRules.Instance.GameOver(collision);
-
                 //Switch Squishy to frown
                 _material.mainTextureOffset = new Vector2(0.5f, 0);
+
+                //Squishy has hit or been hit by a missile or explosion
+                GameRules.Instance.GameOver(collision);
             }
         }
     }
