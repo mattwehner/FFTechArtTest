@@ -54,6 +54,10 @@ namespace Assets.Scripts
         public float MissileAccuracy { get { return _missileAccuracy; } }
 
         [SerializeField]
+        private float _accuracyOverTime = 1f;
+        public float AccuracyOverTime { get { return _accuracyOverTime; } }
+
+        [SerializeField]
         private float _missileExplosionSize = 1f;
         public float MissileExplosionSize { get { return _missileExplosionSize; } }
 
@@ -94,27 +98,38 @@ namespace Assets.Scripts
         [SerializeField]
         private GameObject _endgameScreenshot;
 
+        [SerializeField]
+        private Text _missileRemainingStat;
+        [SerializeField]
+        private Text _missileDifficultyStat;
 
-        //Internal Variables
-        private int _missilesDestroyed = 0;
+        [HideInInspector]
+        public int MissilesDestroyed = 0;
+
+        [HideInInspector]
+        public float MissileDifficulty;
 
         private void Awake()
         {
             Instance = this;
+            UpdateStats();
         }
 
         private void Update()
         {
             //Check for end game conditions
-            if (!_gameEnd && _missilesDestroyed >= _missileSpawnCount)
+            if (!_gameEnd && MissilesDestroyed >= _missileSpawnCount)
             {
                 GameVictory();
             }
         }
-
+        
         public void MissileDestroyed()
         {
-            _missilesDestroyed++;
+            MissilesDestroyed++;
+            MissileDifficulty = AccuracyOverTime * MissilesDestroyed;
+
+            UpdateStats();
         }
 
         //Game is lost
@@ -154,6 +169,12 @@ namespace Assets.Scripts
         public void ResetGame()
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+
+        private void UpdateStats()
+        {
+            _missileRemainingStat.text = MissilesDestroyed.ToString() + "/" + MissileSpawnCount.ToString();
+            _missileDifficultyStat.text = MissileDifficulty.ToString();
         }
 
         public void BeginLevel()

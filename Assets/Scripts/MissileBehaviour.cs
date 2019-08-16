@@ -17,6 +17,7 @@ namespace Assets.Scripts
     
         private float _missileThrust = 0f;
         private float _missileAccuracy = 0f;
+        private float _missileDifficulty = 1f;
         private Rigidbody _rigidbody;
         private GameObject _squishyInstance;
 
@@ -27,6 +28,7 @@ namespace Assets.Scripts
             _rigidbody = GetComponent<Rigidbody>();
             _missileThrust = GameRules.Instance.MissileThrust;
             _missileAccuracy = GameRules.Instance.MissileAccuracy;
+            _missileDifficulty = GameRules.Instance.MissileDifficulty;
             _squishyInstance = FindObjectOfType<SquishyBehaviour>().gameObject;
         }
 
@@ -52,7 +54,9 @@ namespace Assets.Scripts
             dir.y = 0;
             Quaternion rotation = Quaternion.LookRotation(dir);
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _missileAccuracy * Time.deltaTime);
+            //Increase Accuracy the more missiles have been destroyed
+            float accuracy = (_missileAccuracy * Time.deltaTime) + _missileDifficulty;
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, accuracy);
         }
 
         private void OnCollisionEnter(Collision collision)
