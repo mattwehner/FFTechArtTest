@@ -61,7 +61,6 @@ namespace Assets.Scripts
             for (int i = 0; i < _confettiAmount; i++)
             {
                 GameObject confetti = Instantiate(_confetti, transform.position, Quaternion.identity, transform);
-                _confettiCollection.Add(confetti);
 
                 //Assign Random Color
                 confetti.GetComponent<Image>().color = Random.ColorHSV(0,1,0.6f,1,1,1);
@@ -70,6 +69,8 @@ namespace Assets.Scripts
                 float zRotation = confetti.transform.rotation.z;
                 float rotateAmount = Random.Range(zRotation - _spreadAmount, zRotation + _spreadAmount);
                 confetti.transform.Rotate(0,0, rotateAmount);
+
+                _confettiCollection.Add(confetti);
             }
         }
     }

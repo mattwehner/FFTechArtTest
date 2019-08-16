@@ -12,8 +12,9 @@ namespace Assets.Scripts
         private static Camera _camera;
         private static Image _imageDisplay;
         private static bool _captureScreenshot = false;
+
         [HideInInspector]
-        public static bool _screenshotCaptured = false;
+        public static bool ScreenshotCaptured = false;
 
         private void Awake()
         {
@@ -25,13 +26,13 @@ namespace Assets.Scripts
             {
                 _captureScreenshot = false;
                 ScreenshotPath = SaveScreenshotToFile();
-                _screenshotCaptured = true;
+                ScreenshotCaptured = true;
             }
         }
 
         public static void Capture(int width, int height, Image renderTo)
         {
-            _screenshotCaptured = false;
+            ScreenshotCaptured = false;
             _camera.targetTexture = RenderTexture.GetTemporary(width, height, 32);
             _imageDisplay = renderTo;
             _captureScreenshot = true;

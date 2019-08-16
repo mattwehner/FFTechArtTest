@@ -77,7 +77,7 @@ namespace Assets.Scripts
 
             yield return null;
 
-            //_explosionSound.Stop();
+            _explosionSound.Stop();
             Destroy(gameObject);
         }
 

@@ -33,7 +33,7 @@ namespace Assets.Scripts
 
             //Flash Minecap while counting down
             float currentTimer = 0f;
-            Material cap = _mineCap.GetComponent<Renderer>().material;
+            Material mineCap = _mineCap.GetComponent<Renderer>().material;
             bool capIsOn = false;
             float blinkRate = _blinkPerSecond / 2;
 
@@ -42,9 +42,9 @@ namespace Assets.Scripts
                 currentTimer += blinkRate;
                 
                 if (capIsOn)
-                    cap.DisableKeyword("_EMISSION");
+                    mineCap.DisableKeyword("_EMISSION");
                 else
-                    cap.EnableKeyword("_EMISSION");
+                    mineCap.EnableKeyword("_EMISSION");
 
                 capIsOn = !capIsOn;
 

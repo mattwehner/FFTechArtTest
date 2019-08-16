@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Extensions;
+﻿using System;
+using System.Linq.Expressions;
+using Assets.Scripts.Extensions;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,16 +30,21 @@ namespace Assets.Scripts
         [SerializeField]
         private Material _material;
 
+        private enum Expressions
+        {
+            Smile,
+            Frown
+        }
+
         void Start ()
         {
             _jumpForce = GameRules.Instance.SquishyJumpForce;
             _rigidbody = GetComponent<Rigidbody>();
             _animator = GetComponent<Animator>();
 
-            //Start Squishy Smiling
-            _material.mainTextureOffset = new Vector2(0, 0);
+            ChangeExpression(Expressions.Smile);
         }
-	
+
         void Update ()
         {
             if (GameRules.Instance.HasGameStarted)
@@ -85,12 +92,25 @@ namespace Assets.Scripts
 
             if ((missile != null || explosion != null) && !GameRules.Instance.HasGameEnded)
             {
-                //Switch Squishy to frown
-                _material.mainTextureOffset = new Vector2(0.5f, 0);
-
-                //Squishy has hit or been hit by a missile or explosion
+                ChangeExpression(Expressions.Frown);
                 GameRules.Instance.GameOver(collision);
             }
+        }
+        
+        private void ChangeExpression(Expressions expression)
+        {
+            Vector2 offset = new Vector2();
+            switch (expression)
+            {
+                case Expressions.Smile:
+                    offset.x = 0f;
+                    break;
+                case Expressions.Frown:
+                    offset.x = 0.5f;
+                    break;
+            }
+
+            _material.mainTextureOffset = offset;
         }
     }
 }

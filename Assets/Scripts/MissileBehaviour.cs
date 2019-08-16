@@ -33,7 +33,7 @@ namespace Assets.Scripts
 
         private void TrackTarget (GameObject target)
         {
-            Vector3 dir = _squishyInstance.transform.position - transform.position;
+            Vector3 dir = target.transform.position - transform.position;
             dir.y = 0;
             Quaternion rotation = Quaternion.LookRotation(dir);
 

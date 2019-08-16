@@ -163,9 +163,12 @@ namespace Assets.Scripts
         private IEnumerator CaptureScreenshotThenCleanupScene()
         {
             var dimensions = _endgameScreenshot.GetComponent<RectTransform>().rect;
-            ScreenshotUtilities.Capture((int)dimensions.width, (int)dimensions.height, _endgameScreenshot.GetComponent<Image>());
+            ScreenshotUtilities.Capture(
+                (int)dimensions.width,
+                (int)dimensions.height, 
+                _endgameScreenshot.GetComponent<Image>());
 
-            yield return new WaitUntil(() => ScreenshotUtilities._screenshotCaptured);
+            yield return new WaitUntil(() => ScreenshotUtilities.ScreenshotCaptured);
 
             MissileSpawner.Instance.Cleanup();
         
