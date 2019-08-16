@@ -32,7 +32,6 @@ namespace Assets.Scripts
             else
             {
                 Debug.LogError("Unassigned Variable in the Inspector Window");
-                UnityEditor.EditorApplication.isPlaying = false;
             }
         }
 
