@@ -1,9 +1,8 @@
-﻿using Assets.Scripts.Interfaces;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class MissileBehaviour : MonoBehaviour, IDestroyable
+    public class MissileBehaviour : MonoBehaviour, IExplodable
     {
         [SerializeField]
         private GameObject _explosionPrefab;
@@ -45,10 +44,10 @@ namespace Assets.Scripts
         {
             //Destroy if collision wasn't with squishy
             SquishyBehaviour squishy = collision.collider.GetComponent<SquishyBehaviour>();
-            if (squishy == null) Destroy();
+            if (squishy == null) Explode();
         }
 
-        public void Destroy()
+        public void Explode()
         {
             GameRules.Instance.MissileDestroyed();
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity, GameRules.Instance.ExplosionParent);

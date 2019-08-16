@@ -20,9 +20,15 @@ namespace Assets.Scripts
         private float _spreadAmount = 100f;
 
 
+        private AudioSource _launchSound;
         private List<GameObject> _confettiCollection;
 
         void Awake()
+        {
+            _launchSound = gameObject.GetComponent<AudioSource>();
+        }
+
+        void Start()
         {
             SpawnConfetti();
             LaunchConfetti();
@@ -39,11 +45,13 @@ namespace Assets.Scripts
 
         private void LaunchConfetti()
         {
+            _launchSound.Play();
             foreach (var confetti in _confettiCollection)
             {
                 float randomForce = Random.Range(_launchForce - _randomizeForce, _launchForce + _randomizeForce);
                 confetti.GetComponent<Rigidbody2D>().AddRelativeForce(confetti.transform.up * randomForce, ForceMode2D.Impulse);
             }
+            _launchSound.Stop();
         }
 
         private void SpawnConfetti()

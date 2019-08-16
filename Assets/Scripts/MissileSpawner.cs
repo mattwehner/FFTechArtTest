@@ -42,7 +42,7 @@ public class MissileSpawner : MonoBehaviour
         _missileParent.SetActive(false);
         foreach (Transform missile in _missileParent.transform)
         {
-            missile.GetComponent<MissileBehaviour>().Destroy();
+            missile.GetComponent<MissileBehaviour>().Explode();
         }
     }
 

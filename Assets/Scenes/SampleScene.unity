@@ -1954,41 +1954,16 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114342162179653498, guid: b7b9c091bc6bbbf48941efb003e6e8d9,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2000700311}
     - target: {fileID: 223514263960035692, guid: b7b9c091bc6bbbf48941efb003e6e8d9,
         type: 2}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 282840813}
-    - target: {fileID: 224158932723335448, guid: b7b9c091bc6bbbf48941efb003e6e8d9,
+    - target: {fileID: 114342162179653498, guid: b7b9c091bc6bbbf48941efb003e6e8d9,
         type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224378628619882630, guid: b7b9c091bc6bbbf48941efb003e6e8d9,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224460805926471424, guid: b7b9c091bc6bbbf48941efb003e6e8d9,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 224968058840287102, guid: b7b9c091bc6bbbf48941efb003e6e8d9,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 224677379016788372, guid: b7b9c091bc6bbbf48941efb003e6e8d9,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2000700311}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b7b9c091bc6bbbf48941efb003e6e8d9, type: 2}
   m_IsPrefabParent: 0
@@ -3627,7 +3602,7 @@ MonoBehaviour:
   _missileParent: {fileID: 1698809367}
   _missileThrust: 20
   _missileSpawnTimer: 4
-  _missileSpawnCount: 10
+  _missileSpawnCount: 1
   _missileAccuracy: 1
   _missileExplosionSize: 1
   _missileExplosionTime: 1

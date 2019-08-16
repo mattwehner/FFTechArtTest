@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Assets.Scripts
 {
@@ -7,6 +8,8 @@ namespace Assets.Scripts
     {
         [SerializeField]
         private ExplosionType _explosionType;
+        
+        private AudioSource _explosionSound;
 
         //Explosion Colors
         private Color32 _startingColor;
@@ -37,15 +40,21 @@ namespace Assets.Scripts
 
             _material = gameObject.GetComponent<Renderer>().material;
             _startingColor = _material.color;
+            _explosionSound = gameObject.GetComponent<AudioSource>();
+
+            //Retimes audio so it lasts as long as explosion
+            _explosionSound.pitch = _explosionSound.clip.length / _expansionTime;
 
             StartCoroutine(BeginExplosionExpansion());
         }
+
 
         public IEnumerator BeginExplosionExpansion()
         {
             float currentCuttoff = 0.2f;
             float currentTimer = 0f;
 
+            _explosionSound.Play();
             while(currentTimer < _expansionTime)
             {
                 currentTimer += Time.deltaTime;
@@ -68,6 +77,7 @@ namespace Assets.Scripts
 
             yield return null;
 
+            //_explosionSound.Stop();
             Destroy(gameObject);
         }
 
