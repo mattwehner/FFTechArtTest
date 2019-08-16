@@ -1,9 +1,5 @@
-﻿using System;
-using System.Linq.Expressions;
-using Assets.Scripts.Extensions;
-using Cinemachine;
+﻿using Assets.Scripts.Extensions;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -15,16 +11,23 @@ namespace Assets.Scripts
         [SerializeField]
         private GameObject _minePrefab;
 
+        [SerializeField]
+        private GameObject _trailPrefab;
+
         //Mouse position tracking
         private Vector3 _mousePositionStart = Vector3.zero;
 	
         //Movement
         private Rigidbody _rigidbody;
         private float _jumpForce = 0f;
+
+        //Slime Trail
+        private GameObject _currentTrail;
+        private Vector3 _trailStartPosition;
 	
         //Animation
         private Animator _animator;
-        private string _lurchAnimation = "SquishyLurch";
+        private string _lurchAnimation = "SquishyLunge";
 
         //Material
         [SerializeField]
@@ -51,6 +54,13 @@ namespace Assets.Scripts
             {
                 CheckInputs();
             }
+
+            if (_currentTrail !=null && _rigidbody.velocity.magnitude > 0)
+            {
+                Vector3 currentPosition = transform.position;
+                float distance = Vector3.Distance(_trailStartPosition, currentPosition);
+                _currentTrail.transform.localScale = new Vector3(1, 1, distance * 10);
+            }
         }
 
         private void CheckInputs()
@@ -69,10 +79,13 @@ namespace Assets.Scripts
                 Vector3 mouseDelta = mousePosition - _mousePositionStart;
                 mouseDelta = new Vector3(mouseDelta.x, 0f, mouseDelta.y);
 
-                //Rotate and move squishy
+                //Rotate squishy
                 transform.LookAt(mouseDelta);
                 _animator.Play(_lurchAnimation);
                 PushRigidbody(transform.forward * _jumpForce);
+
+                _trailStartPosition = transform.position;
+                _currentTrail = Instantiate(_trailPrefab, _trailStartPosition, transform.rotation, GameRules.Instance.TrailParent).gameObject;
 
                 //Spawn a mine at squishy's current location
                 Instantiate(_minePrefab, transform.position, Quaternion.identity, GameRules.Instance.MineParent);

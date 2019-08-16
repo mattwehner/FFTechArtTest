@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using Boo.Lang;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -7,10 +9,18 @@ namespace Assets.Scripts
         [SerializeField]
         private GameObject _explosionPrefab;
     
+        [Header("Trail Behaviour")]
+        [SerializeField]
+        private Material _disabledBy;
+        [SerializeField]
+        private float _effectedByTrail = 1f;
+    
         private float _missileThrust = 0f;
         private float _missileAccuracy = 0f;
         private Rigidbody _rigidbody;
         private GameObject _squishyInstance;
+
+        private bool _inSlime = false;
 
         private void Start()
         {
@@ -23,7 +33,12 @@ namespace Assets.Scripts
         void FixedUpdate()
         {
             PushRigidbody(Vector3.forward * _missileThrust);
-            TrackTarget(_squishyInstance);
+
+            if (!_inSlime)
+            {
+                StopCoroutine(PreventTracking());
+                TrackTarget(_squishyInstance);
+            }
         }
 
         private void PushRigidbody(Vector3 force)
@@ -45,6 +60,24 @@ namespace Assets.Scripts
             //Destroy if collision wasn't with squishy
             SquishyBehaviour squishy = collision.collider.GetComponent<SquishyBehaviour>();
             if (squishy == null) Explode();
+        }
+
+        void OnTriggerEnter(Collider collider)
+        {
+            TrailBehaviour trail = collider.GetComponent<TrailBehaviour>();
+            if (trail != null)
+            {
+                StartCoroutine(PreventTracking());
+            }
+        }
+
+        public IEnumerator PreventTracking()
+        {
+            _inSlime = true;
+
+            yield return new WaitForSeconds(_effectedByTrail);
+
+            _inSlime = false;
         }
 
         public void Explode()

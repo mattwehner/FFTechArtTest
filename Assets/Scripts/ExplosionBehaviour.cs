@@ -75,8 +75,6 @@ namespace Assets.Scripts
 
             transform.localScale = Vector3.one * _expansionSize;
 
-            yield return null;
-
             _explosionSound.Stop();
             Destroy(gameObject);
         }

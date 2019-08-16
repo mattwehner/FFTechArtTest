@@ -28,6 +28,9 @@ namespace Assets.Scripts
         [SerializeField]
         private float _squishyJumpForce = 10000f;
         public float SquishyJumpForce { get { return _squishyJumpForce; } }
+        [SerializeField]
+        private Transform _trailParent;
+        public Transform TrailParent { get { return _trailParent; } }
 
         [Header("Missile Parameters")]
         [SerializeField]
@@ -80,8 +83,7 @@ namespace Assets.Scripts
         [SerializeField]
         private Transform _explosionParent;
         public Transform ExplosionParent { get { return _explosionParent; } }
-
-
+        
         [Header("Endgame UI")]
         [SerializeField]
         private GameObject _endgameCanvas;

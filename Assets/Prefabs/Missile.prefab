@@ -682,3 +682,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosionPrefab: {fileID: 1121489719280882, guid: 7937737f4b9a43940a5770ee9487b85a,
     type: 2}
+  _disabledBy: {fileID: 2100000, guid: 010fcdaa349b70342ae1e60ced0a47cf, type: 2}
+  _effectedByTrail: 1

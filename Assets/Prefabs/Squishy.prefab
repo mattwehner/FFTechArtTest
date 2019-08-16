@@ -246,6 +246,8 @@ MonoBehaviour:
   _camera: {fileID: 0}
   _minePrefab: {fileID: 1370897834849900, guid: a9e407337eac27542aff89f81946bd17,
     type: 2}
+  _trailPrefab: {fileID: 1424806434246136, guid: 6cc6479536b7dbd43857af38ba3ba1c6,
+    type: 2}
   _material: {fileID: 2100000, guid: 7c13a273a15ac8f42875bf38a4a163b9, type: 2}
 --- !u!135 &135533692404327764
 SphereCollider:
